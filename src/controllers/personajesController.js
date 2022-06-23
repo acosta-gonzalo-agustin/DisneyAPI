@@ -22,6 +22,7 @@ const controlador = {
                         return res.status(500).send(err);
                     }
 
+
                     db.personajes.create({
                         Imagen: name,
                         Nombre: req.body.Nombre,
@@ -143,14 +144,14 @@ const controlador = {
             
 
             db.personajes.findOne({
+                include: [{association:'peliculasoseries'}],
                 where: {Nombre:req.query.name},
                 
             })
             .then(function(data) {
                 if(data !== null) {
                     return res.json({
-                        Nombre:data.Nombre,
-                        Imagen:data.Imagen
+                        Personaje:data,
                     })
                 } else {
                     return res.json({msg:'no exite ningun personaje con ese nombre'})

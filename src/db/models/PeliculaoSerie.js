@@ -11,7 +11,7 @@ function peliculasoseriesData(sequelize, Datatypes) {
 
     };
     
-    let config = {timestamps:false,camelCase:false,tableName:'PeliculaoSerie'};
+    let config = {timestamps:false,camelCase:false,tableName:'peliculaoserie'};
 
     const peliculasoseries = sequelize.define(alias,cols,config);
 

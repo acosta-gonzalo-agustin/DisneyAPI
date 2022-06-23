@@ -1,13 +1,69 @@
 const db = require('../db/models');
 const path = require('path');
-const { Z_NO_COMPRESSION } = require('zlib');
-const { count } = require('console');
+
 
 
 const controlador = {
 
-    lista_de_peliculas: function(req,res) {
-        let attributes = ['Imagen','Título','fecha_creación']
+    peliculasoseries: function(req,res) {
+
+
+        if(req.query.name) {
+
+            db.peliculasoseries.findOne(
+                {
+                    include: [
+                        { association: 'genero'},
+                    ],
+                    where: {
+                        Título: req.query.name,
+                    }
+                }
+    
+                )
+            .then(data => {
+                return res.json({
+    
+                    Imagen: data.Imagen,
+                    Título: data.Título,
+                    fecha_creación: data.fecha_creación,
+                    Calificación: data.Calificación,
+                    género: data.genero.Nombre,
+                })           
+            })
+
+
+        } else if(req.query.genre) {
+
+            db.peliculasoseries.findAll({
+                where: {id_género:req.query.genre}
+            })
+            .then(data => {
+            return res.json({
+                count:data.length,
+                peliculasseries: data
+
+            })           
+        })
+
+
+        } else if(req.query.order) {
+
+
+            db.peliculasoseries.findAll({
+                order: [['fecha_creación',req.query.order]]
+            })
+            .then(data => {
+            return res.json({
+                count:data.length,
+                peliculasseries: data
+
+            })           
+        })
+
+
+        } else {
+            let attributes = ['Imagen','Título','fecha_creación']
 
         db.peliculasoseries.findAll({attributes})
         .then(data => {
@@ -18,47 +74,25 @@ const controlador = {
             })           
         })
 
+
+        }
+
         
     },
     
-    detalle_de_pelicula: function(req,res) {
-        
 
-        db.peliculasoseries.findOne(
-            {
-                include: [
-                    { association: 'genero' },
-                ],
-                where: {
-                    id: req.params.id,
-                }
-            }
 
-            )
-        .then(data => {
-            return res.json({
 
-                Imagen: data.Imagen,
-                Título: data.Título,
-                fecha_creación: data.fecha_creación,
-                Calificación: data.Calificación,
-                género: data.genero.Nombre,
-            })           
-        })
+    crear_pelicula: function(req,res) {
 
         
-    },
-
-
-    crear_personaje: function(req,res) {
-
         
 
         if(req.files) {
             
             const file = req.files.Imagen;
             const name = Date.now() + file.name;
-            const ruta = path.join(__dirname + "../../../public/images/characters/" + name);
+            const ruta = path.join(__dirname + "../../../public/images/peliculasoseries/" + name);
 
             if (file.mimetype == 'image/jpg' || file.mimetype == 'image/png' || file.mimetype == 'image/jpeg') {
                 file.mv(ruta, (err) => {
@@ -66,23 +100,27 @@ const controlador = {
                         return res.status(500).send(err);
                     }
 
-                    db.personajes.create({
-                        Imagen: name,
-                        Nombre: req.body.Nombre,
-                        Edad: req.body.Edad,
-                        Peso: req.body.Peso,
-                        Historia: req.body.Historia
-                    })
-                    .then(personaje => {
+                    console.log(req.body)
 
+                   
+
+                    db.peliculasoseries.create({
+                        id_género:req.body.id_genero,
+                        Imagen:name,
+                        Título:req.body.Titulo,
+                        fecha_creación:req.body.Fecha_Creacion,
+                        Calificación:req.body.Calificacion
+                    })
+                    .then(data => {
                         return res.json({
-                            data:personaje,
-                            description:'personaje creado con exito',
+                            PeliculaoSerie:data,
+                            description:'título creado con éxito',
                             status:201
                         }) 
                     } 
                     )
-                 });
+                    .catch(err => {return res.send(err)})
+                 })
 
             } else {
                 return res.json({msg:'archivo de imagen no valido'})
@@ -97,7 +135,7 @@ const controlador = {
     },
 
 
-    editar_personaje: function(req,res) {
+    editar_peliculaoserie: function(req,res) {
 
         if(req.files) {
             
@@ -111,22 +149,21 @@ const controlador = {
                         return res.status(500).send(err);
                     }
 
-                    db.personajes.update({
+                    db.peliculasoseries.update({
                         Imagen: name,
-                        Nombre: req.body.Nombre,
-                        Edad: req.body.Edad,
-                        Peso: req.body.Peso,
-                        Historia: req.body.Historia
+                        Título: req.body.Titulo,
+                        fecha_creación: req.body.Fecha_Creacion,
+                        Calificación: req.body.Calificacion,
                     },
                     {
                     where: {id:req.params.id}
                     }
                     )
-                    .then(personaje => {
+                    .then(data => {
 
                         return res.json({
-                            data:personaje,
-                            description:'personaje creado con exito',
+                            PeliculaoSerie:personaje,
+                            description:'título actualizado con exito',
                             status:201
                         }) 
                     } 
@@ -137,12 +174,11 @@ const controlador = {
         } else {
             console.log(req.params.id)
 
-            db.personajes.update(
+            db.peliculasoseries.update(
                 {
-                    Nombre: req.body.Nombre,
-                    Edad: req.body.Edad,
-                    Peso: req.body.Peso,
-                    Historia: req.body.Historia
+                    Título: req.body.Titulo,
+                    fecha_creación: req.body.Fecha_Creacion,
+                    Calificación: req.body.Calificacion,
                 },
                 {
                 where: {id:req.params.id}
@@ -150,7 +186,7 @@ const controlador = {
             )
             .then(() => {
                 return res.json({
-                    description:'personaje actualizado',
+                    description:'título actualizado con exito',
                     status:201
                 }) 
 
@@ -163,15 +199,15 @@ const controlador = {
         
     },
 
-    eliminar_personaje: function(req,res) {
+    eliminar_peliculaoserie: function(req,res) {
 
-        db.personajes.destroy({
+        db.peliculasoseries.destroy({
             where: {id:req.params.id}
         })
         .then(function() {
             return res.json({
                 status:200,
-                descripcion:'personaje eliminado'
+                descripcion:'título eliminado'
             })
         }) 
         .catch(function (error) {

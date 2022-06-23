@@ -11,7 +11,7 @@ function peliculasoseries_personajesData(sequelize, Datatypes) {
 
     };
     
-    let config = {timestamps:false,camelCase:false,tableName:'PeliculaoSerie'};
+    let config = {timestamps:false,camelCase:false,tableName:'peliculaoserie_personaje'};
 
     const peliculasoseries_personajes = sequelize.define(alias,cols,config);
 
