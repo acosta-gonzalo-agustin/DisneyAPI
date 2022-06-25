@@ -17,10 +17,13 @@ const controlador = {
             const ruta = path.join(__dirname + "../../../public/images/characters/" + name);
 
             if (file.mimetype == 'image/jpg' || file.mimetype == 'image/png' || file.mimetype == 'image/jpeg') {
+
                 file.mv(ruta, (err) => {
                     if (err) {
                         return res.status(500).send(err);
                     }
+
+                    
 
 
                     db.personajes.create({

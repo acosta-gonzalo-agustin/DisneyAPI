@@ -21,7 +21,10 @@ function validateUser(req,res,next) {
                    
         }) } else {
         
-        res.sendStatus(403);
+        return res.json({
+            msg:'No cuenta con el permiso para acceder a la ruta',
+            status:403
+        });
     }
 
 

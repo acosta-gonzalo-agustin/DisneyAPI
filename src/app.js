@@ -32,6 +32,9 @@ app.use(expressFileUpload({
 })
 );
 
+
+
+
 app.use('/auth', usuariosRouter);
 app.use('/characters', personajesRouter);
 app.use('/movies', peliculasRouter);
