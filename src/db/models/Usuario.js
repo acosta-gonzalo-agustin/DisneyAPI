@@ -5,6 +5,7 @@ function usuariosData(sequelize, Datatypes) {
         id:{type:Datatypes.INTEGER,primaryKey:true,autoIncrement:true},
         password:{type:Datatypes.STRING(100)},
         nombre:{type:Datatypes.STRING(15)},
+        email: {type:Datatypes.STRING(40)}
 
     };
     

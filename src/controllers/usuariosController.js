@@ -22,7 +22,6 @@ const controlador = {
         })
             .then(function () {
 
-                const APIKey = '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';
 
                 sgMail.setApiKey(APIKey);
 
