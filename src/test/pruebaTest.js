@@ -49,33 +49,18 @@ describe("Index Tests", function () {
   // test personajes
 
 
-  // describe('get all movies: ', () => {
-  //   it('should get all movies', (done) => {
-  //     chai.request(app)
-  //       .get('/movies')
-  //       .end(function (err, res) {
-  //         expect(res).to.have.status(200);
-  //         expect(res).to.be.json;
-  //         done();                               // <= Call done to signal callback end
-  //       });
-  //   });
-  // });
+  describe('get all movies: ', () => {
+    it('should get all movies', (done) => {
+      chai.request(app)
+        .get('/movies')
+        .end(function (err, res) {
+          expect(res).to.have.status(200);
+          expect(res).to.be.json;
+          done();                       
+        });
+    });
+  });
 
-
-  // test peliculas o series
-
-
-  // describe('get all movies: ', () => {
-  //   it('should get all movies', (done) => {
-  //     chai.request(app)
-  //       .get('/movies')
-  //       .end(function (err, res) {
-  //         expect(res).to.have.status(200);
-  //         expect(res).to.be.json;
-  //         done();                               // <= Call done to signal callback end
-  //       });
-  //   });
-  // });
 
 })
 
