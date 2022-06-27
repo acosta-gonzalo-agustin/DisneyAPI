@@ -10,6 +10,7 @@ var usuariosRouter = require('./routes/usuariosRoute');
 var personajesRouter = require('./routes/personajesRoute');
 
 
+
 var app = express();
 
 // view engine setup
@@ -23,7 +24,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-
+require('dotenv').config()
 
 /*----------------------------------------------RUTA DE EXPRESS FILE UPLOAD-------------------------------*/
 app.use(expressFileUpload({

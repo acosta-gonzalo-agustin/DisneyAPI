@@ -2,6 +2,8 @@ const db = require('../db/models');
 const bcrypt = require('bcrypt');
 
 
+
+
 const sgMail = require('@sendgrid/mail');
 
 
@@ -23,11 +25,14 @@ const controlador = {
             .then(function () {
 
 
-                sgMail.setApiKey(APIKey);
+                
+  
+
+                sgMail.setApiKey(process.env.API_KEY);
 
                 const message = {
                     to: req.body.email,
-                    from: 'acosta.gonzalo.agustin@gmail.com',
+                    from: process.env.mail,
                     subject: 'Disney APIKey welcome',
                     text: 'Hola. Tu cuenta ha sido creada con exito. Ahora puedes acceder a todos los recursos de la API'
                 }
