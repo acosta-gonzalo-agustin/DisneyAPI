@@ -27,8 +27,8 @@ const controlador = {
 
                 const message = {
                     to: req.body.email,
-                    from: 'acosta.gonzalo.agustin@gmail.com',
-                    subject: 'Disney APIKey welcome',
+                    from: '',
+                    subject: '',
                     text: 'Hola. Tu cuenta ha sido creada con exito. Ahora puedes acceder a todos los recursos de la API'
                 }
 
