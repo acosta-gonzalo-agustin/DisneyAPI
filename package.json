@@ -22,7 +22,7 @@
     "mocha": "^10.0.0",
     "morgan": "~1.9.1",
     "mysql2": "^2.3.3",
-    "sequelize": "^6.21.0"
+    "sequelize": "^6.29.0"
   },
   "devDependencies": {
     "sequelize-cli": "^6.4.1"
