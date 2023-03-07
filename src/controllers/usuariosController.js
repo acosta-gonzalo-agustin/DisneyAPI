@@ -18,8 +18,8 @@ const controlador = {
 
         db.usuarios.create({
 
+          
             nombre: req.body.name,
-            email: req.body.email,
             password: bcrypt.hashSync(req.body.password, 12)
         })
             .then(function () {
@@ -30,9 +30,11 @@ const controlador = {
 
                 sgMail.setApiKey(process.env.API_KEY);
 
+                console.log(req.body.email);
+
                 const message = {
                     to: req.body.email,
-                    from: process.env.mail,
+                    from: process.env.GRID_MAIL,
                     subject: 'Disney APIKey welcome',
                     text: 'Hola. Tu cuenta ha sido creada con exito. Ahora puedes acceder a todos los recursos de la API'
                 }
